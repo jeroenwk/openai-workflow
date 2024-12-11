@@ -1317,7 +1317,7 @@ function run() {
 				<key>inputtype</key>
 				<integer>1</integer>
 				<key>loadingtext</key>
-				<string>Querying ChatGPT API…</string>
+				<string>Querying Chat API…</string>
 				<key>outputmode</key>
 				<integer>1</integer>
 				<key>scriptinput</key>
@@ -2354,6 +2354,36 @@ Query DALL·E via the `dalle` keyword.
 			<key>config</key>
 			<dict>
 				<key>default</key>
+				<string>https://api.openai.com/v1/chat/completions</string>
+				<key>pairs</key>
+				<array>
+					<array>
+						<string>OpenRouter</string>
+						<string>https://openrouter.ai/api/v1/chat/completions</string>
+					</array>
+					<array>
+						<string>OpenAi</string>
+						<string>https://api.openai.com/v1/chat/completions</string>
+					</array>
+					<array>
+						<string>Google</string>
+						<string>https://generativelanguage.googleapis.com/v1beta</string>
+					</array>
+				</array>
+			</dict>
+			<key>description</key>
+			<string></string>
+			<key>label</key>
+			<string>Provider</string>
+			<key>type</key>
+			<string>popupbutton</string>
+			<key>variable</key>
+			<string>chatgpt_api_endpoint</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
 				<string></string>
 				<key>placeholder</key>
 				<string></string>
@@ -2375,7 +2405,49 @@ Query DALL·E via the `dalle` keyword.
 			<key>config</key>
 			<dict>
 				<key>default</key>
-				<string>chatgpt</string>
+				<string></string>
+				<key>placeholder</key>
+				<string></string>
+				<key>required</key>
+				<false/>
+				<key>trim</key>
+				<true/>
+			</dict>
+			<key>description</key>
+			<string>Get it at https://openrouter.ai/settings/keys</string>
+			<key>label</key>
+			<string>OpenRouter API Key</string>
+			<key>type</key>
+			<string>textfield</string>
+			<key>variable</key>
+			<string>openrouter_api_key</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<string></string>
+				<key>placeholder</key>
+				<string></string>
+				<key>required</key>
+				<false/>
+				<key>trim</key>
+				<true/>
+			</dict>
+			<key>description</key>
+			<string>Get it at https://aistudio.google.com/app/apikey</string>
+			<key>label</key>
+			<string>Google API Key</string>
+			<key>type</key>
+			<string>textfield</string>
+			<key>variable</key>
+			<string>google_api_key</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<string>chat</string>
 				<key>placeholder</key>
 				<string></string>
 				<key>required</key>
@@ -2419,20 +2491,24 @@ Query DALL·E via the `dalle` keyword.
 				<key>pairs</key>
 				<array>
 					<array>
-						<string>GPT-4o</string>
+						<string>OpenAi: GPT-4o</string>
 						<string>gpt-4o</string>
 					</array>
 					<array>
-						<string>GPT-4o mini</string>
+						<string>OpenAi: GPT-4o mini</string>
 						<string>gpt-4o-mini</string>
 					</array>
 					<array>
-						<string>GPT-4</string>
+						<string>OpenAi: GPT-4</string>
 						<string>gpt-4</string>
 					</array>
 					<array>
-						<string>GPT-4 Turbo</string>
-						<string>gpt-4-turbo</string>
+						<string>OpenRouter: Llama 3.3 70B Instruct</string>
+						<string>meta-llama/llama-3.3-70b-instruct</string>
+					</array>
+					<array>
+						<string>Google: Gemini Experimental 1206</string>
+						<string>gemini-exp-1206</string>
 					</array>
 				</array>
 			</dict>
@@ -2679,16 +2755,14 @@ Query DALL·E via the `dalle` keyword.
 	</array>
 	<key>variables</key>
 	<dict>
-		<key>chatgpt_api_endpoint</key>
-		<string>https://api.openai.com/v1/chat/completions</string>
 		<key>chatgpt_model_override</key>
 		<string></string>
 		<key>dalle_api_endpoint</key>
 		<string>https://api.openai.com/v1/images/generations</string>
 	</dict>
 	<key>version</key>
-	<string>2024.19</string>
+	<string>2024.19.999</string>
 	<key>webaddress</key>
-	<string>https://github.com/alfredapp/openai-workflow/</string>
+	<string>https://github.com/jeroenwk/openai-workflow/</string>
 </dict>
 </plist>
