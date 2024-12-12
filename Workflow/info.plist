@@ -724,7 +724,7 @@
 	<key>disabled</key>
 	<false/>
 	<key>name</key>
-	<string>ChatGPT / DALL-E</string>
+	<string>AI Chat / DALL-E</string>
 	<key>objects</key>
 	<array>
 		<dict>
@@ -761,7 +761,7 @@
 				<key>acceptsurls</key>
 				<false/>
 				<key>name</key>
-				<string>Ask ChatGPT</string>
+				<string>AI Chat</string>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.trigger.universalaction</string>
@@ -1218,7 +1218,7 @@ kill "${pid_stream}"
 			<key>config</key>
 			<dict>
 				<key>text</key>
-				<string>Ask ChatGPT '{query}'</string>
+				<string>AI Chat '{query}'</string>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.trigger.fallback</string>
@@ -1468,7 +1468,7 @@ function run() {
 				<key>subtext</key>
 				<string>↩ Continue chat · ⌘↩ New chat · ⌥↩ Chat history</string>
 				<key>text</key>
-				<string>Ask ChatGPT</string>
+				<string>AI Chat</string>
 				<key>withspace</key>
 				<true/>
 			</dict>
@@ -1675,7 +1675,7 @@ function run() {
 				<key>subtext</key>
 				<string></string>
 				<key>title</key>
-				<string>ChatGPT Chat History</string>
+				<string>AI Chat History</string>
 				<key>type</key>
 				<integer>7</integer>
 				<key>withspace</key>
@@ -2458,7 +2458,7 @@ Query DALL·E via the `dalle` keyword.
 			<key>description</key>
 			<string></string>
 			<key>label</key>
-			<string>ChatGPT Keyword</string>
+			<string>Keyword</string>
 			<key>type</key>
 			<string>textfield</string>
 			<key>variable</key>
@@ -2584,7 +2584,7 @@ Query DALL·E via the `dalle` keyword.
 				<integer>3</integer>
 			</dict>
 			<key>description</key>
-			<string>Initial message to guide ChatGPT on the answers you expect.</string>
+			<string>Initial message to guide AI Chat on the answers you expect.</string>
 			<key>label</key>
 			<string>System Prompt</string>
 			<key>type</key>
