@@ -101,6 +101,7 @@ function startStream(apiEndpoint, apiKey, apiOrgHeader, model, systemPrompt, con
 function readStream(streamFile, chatFile, pidStreamFile) {
   const streamMarker = envVar("stream_marker") === "1"
   const streamString = $.NSString.stringWithContentsOfFileEncodingError(streamFile, $.NSUTF8StringEncoding, undefined).js
+  const model = envVar("chatgpt_model_override") ? envVar("chatgpt_model_override") : envVar("gpt_model")
 
   // When starting a stream or continuing from a closed window, add a marker to determine the location of future replacements
   if (streamMarker) return JSON.stringify({
@@ -167,7 +168,7 @@ function readStream(streamFile, chatFile, pidStreamFile) {
     // Stop
     return JSON.stringify({
       response: `${responseText} [Connection Stalled]`,
-      footer: `You can ask ${envVar("gpt_model")} to continue the answer`,
+      footer: `You can ask ${model} to continue the answer`,
       behaviour: { response: "replacelast", scroll: "end" }
     })
   }
