@@ -158,7 +158,9 @@ function readStream(streamFile, chatFile, pidStreamFile) {
       responseText += `[${JSON.stringify((item["error"]))}]`
       error = item["error"]["code"]
     } else if (apiEndpoint.includes('google')) {
-      responseText += item["candidates"][0]?.["content"]["parts"].map(part => part.text).join("")
+      if (item["candidates"][0]?.["content"]["parts"]) {
+        responseText += item["candidates"][0]["content"]["parts"].map(part => part.text).join("")
+      }
     } else {
       if (item["choices"][0]?.["delta"]["content"]) {
         responseText += item["choices"][0]["delta"]["content"]
