@@ -160,7 +160,9 @@ function readStream(streamFile, chatFile, pidStreamFile) {
     } else if (apiEndpoint.includes('google')) {
       responseText += item["candidates"][0]?.["content"]["parts"].map(part => part.text).join("")
     } else {
-      responseText += item["choices"][0]?.["delta"]["content"]
+      if (item["choices"][0]?.["delta"]["content"]) {
+        responseText += item["choices"][0]["delta"]["content"]
+      }
     }
   })
 
