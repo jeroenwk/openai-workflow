@@ -111,6 +111,8 @@ function readStream(streamFile, chatFile, pidStreamFile) {
     behaviour: { response: "append" }
   })
 
+  // console.log('streamString ==', streamString)
+
   // If response looks like proper JSON, it is probably an error
   if (streamString.startsWith("{")) {
     try {
@@ -147,11 +149,27 @@ function readStream(streamFile, chatFile, pidStreamFile) {
     .flatMap(item => { try { return JSON.parse(item) } catch { return [] } }) // Parse as JSON
 
   let responseText = ""
+  let error = undefined
+
   const apiEndpoint = envVar("chatgpt_api_endpoint")
-  if (apiEndpoint.includes('google')) {
-    responseText = chunks.map(item => item["candidates"][0]?.["content"]["parts"].map(part => part.text).join("")).join("");
-  } else {
-    responseText = chunks.map(item => item["choices"][0]?.["delta"]["content"]).join("")
+  
+  chunks.map(item => {
+    if (item["error"]) {
+      responseText += `[${JSON.stringify((item["error"]))}]`
+      error = item["error"]["code"]
+    } else if (apiEndpoint.includes('google')) {
+      responseText += item["candidates"][0]?.["content"]["parts"].map(part => part.text).join("")
+    } else {
+      responseText += item["choices"][0]?.["delta"]["content"]
+    }
+  })
+
+  if (error) {
+    return JSON.stringify({
+      response: responseText,
+      footer: `Error ${error}. You can ask ${model} to try again`,
+      behaviour: { response: "replacelast", scroll: "end" }
+    })
   }
 
   // If File not modified for over 5 seconds, connection stalled
