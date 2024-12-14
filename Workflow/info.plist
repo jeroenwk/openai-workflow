@@ -806,7 +806,7 @@
 				<key>acceptsurls</key>
 				<false/>
 				<key>name</key>
-				<string>AI Chat</string>
+				<string>Ask</string>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.trigger.universalaction</string>
@@ -823,7 +823,7 @@
 				<key>skipuniversalaction</key>
 				<true/>
 				<key>subtext</key>
-				<string>Optionally add a line of text which will be prepended to the input</string>
+				<string></string>
 				<key>text</key>
 				<string>Add Context</string>
 				<key>withspace</key>
@@ -1263,7 +1263,7 @@ kill "${pid_stream}"
 			<key>config</key>
 			<dict>
 				<key>text</key>
-				<string>AI Chat '{query}'</string>
+				<string>Chat '{query}'</string>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.trigger.fallback</string>
@@ -1513,7 +1513,7 @@ function run() {
 				<key>subtext</key>
 				<string>↩ Continue chat · ⌘↩ New chat · ⌥↩ Chat history</string>
 				<key>text</key>
-				<string>AI Chat</string>
+				<string>Chat {query}</string>
 				<key>withspace</key>
 				<true/>
 			</dict>
@@ -2581,12 +2581,16 @@ Query DALL·E via the `dalle` keyword.
 						<string>https://openrouter.ai/api/v1/chat/completions</string>
 					</array>
 					<array>
-						<string>OpenAi</string>
+						<string>OpenAI</string>
 						<string>https://api.openai.com/v1/chat/completions</string>
 					</array>
 					<array>
 						<string>Google</string>
 						<string>https://generativelanguage.googleapis.com/v1beta</string>
+					</array>
+					<array>
+						<string>LM Studio</string>
+						<string>http://localhost:1234/v1/chat/completions</string>
 					</array>
 				</array>
 			</dict>
