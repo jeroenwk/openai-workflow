@@ -2592,6 +2592,10 @@ Query DALL·E via the `dalle` keyword.
 						<string>LM Studio</string>
 						<string>http://localhost:1234/v1/chat/completions</string>
 					</array>
+					<array>
+						<string>Ollama</string>
+						<string>http://localhost:11434/api/chat</string>
+					</array>
 				</array>
 			</dict>
 			<key>description</key>
@@ -2793,6 +2797,27 @@ Query DALL·E via the `dalle` keyword.
 			<string>slider</string>
 			<key>variable</key>
 			<string>max_context</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<string>15</string>
+				<key>placeholder</key>
+				<string></string>
+				<key>required</key>
+				<true/>
+				<key>trim</key>
+				<true/>
+			</dict>
+			<key>description</key>
+			<string>Gives a stalled error if chat didn't respond within given seconds</string>
+			<key>label</key>
+			<string>Reponse timeout</string>
+			<key>type</key>
+			<string>textfield</string>
+			<key>variable</key>
+			<string>response_timeout</string>
 		</dict>
 		<dict>
 			<key>config</key>

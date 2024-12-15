@@ -81,6 +81,13 @@ function startStream(apiEndpoint, apiKey, apiOrgHeader, model, systemPrompt, con
       "--data", `{ "contents":[{"parts":[{"text": "${inputText}"}]}]}`,
       "--output", streamFile
     ]
+  } else if (apiEndpoint.includes('11434')) {
+    task.arguments = [
+      apiEndpoint,
+      "--header", "Content-Type: application/json",
+      "--data", JSON.stringify({ model: model, messages: messages }),
+      "--output", streamFile
+    ]
   } else {
     task.arguments = [
       apiEndpoint,
@@ -111,34 +118,24 @@ function readStream(streamFile, chatFile, pidStreamFile) {
     behaviour: { response: "append" }
   })
 
-  // console.log('streamString ==', streamString)
+  // check for JSON
+  try {
+    const response = JSON.parse(streamString)
 
-  // If response looks like proper JSON, it is probably an error
-  if (streamString.startsWith("{")) {
-    try {
-      const errorMessage = JSON.parse(streamString)["error"]["message"]
-
-      if (errorMessage) {
-        // Delete stream files
-        deleteFile(streamFile)
-        deleteFile(pidStreamFile)
-
-        return JSON.stringify({
-          response: `[${errorMessage}]`, // Surround in square brackets to look like other errors
-          behaviour: { response: "replacelast" }
-        })
-      }
-
-      throw "Could not determine error message" // Fallback to the catch
-    } catch {
-      // If it's not an error from the API, log file contents
-      console.log(streamString)
+    // check for error
+    const errorMessage = response["error"]
+    if (errorMessage) {
+      // Delete stream files
+      deleteFile(streamFile)
+      deleteFile(pidStreamFile)
 
       return JSON.stringify({
-        response: streamString,
+        response: `[${errorMessage?.["message"]}]`, // Surround in square brackets to look like other errors
         behaviour: { response: "replacelast" }
       })
     }
+  } catch {
+    // continue
   }
 
   // Parse streaming response
@@ -161,6 +158,10 @@ function readStream(streamFile, chatFile, pidStreamFile) {
       if (item["candidates"][0]?.["content"]["parts"]) {
         responseText += item["candidates"][0]["content"]["parts"].map(part => part.text).join("")
       }
+    } else if (apiEndpoint.includes('11434')) {
+      if (item["message"]["content"]) {
+        responseText += item["message"]["content"]
+      }
     } else {
       if (item["choices"][0]?.["delta"]["content"]) {
         responseText += item["choices"][0]["delta"]["content"]
@@ -168,16 +169,16 @@ function readStream(streamFile, chatFile, pidStreamFile) {
     }
   })
 
-  if (error) {
-    return JSON.stringify({
-      response: responseText,
-      footer: `Error ${error}. You can ask ${model} to try again`,
-      behaviour: { response: "replacelast", scroll: "end" }
-    })
-  }
+  if (error) return JSON.stringify({
+    response: responseText,
+    footer: `Error ${error}. You can ask ${model} to try again`,
+    behaviour: { response: "replacelast", scroll: "end" }
+  })
 
   // If File not modified for over 5 seconds, connection stalled
-  const stalled = new Date().getTime() - fileModified(streamFile) > 5000
+  const timeoutValue = parseInt(envVar("response_timeout"), 10)
+  const timeout = timeoutValue > 0 ? timeoutValue * 1000 : 5000
+  const stalled = new Date().getTime() - fileModified(streamFile) > timeout
 
   if (stalled) {
     // Write incomplete response
@@ -189,7 +190,7 @@ function readStream(streamFile, chatFile, pidStreamFile) {
 
     // Stop
     return JSON.stringify({
-      response: `${responseText} [Connection Stalled]`,
+      response: `${responseText} [Connection Stalled] after ${timeout/1000} seconds`,
       footer: `You can ask ${model} to continue the answer`,
       behaviour: { response: "replacelast", scroll: "end" }
     })
@@ -202,12 +203,17 @@ function readStream(streamFile, chatFile, pidStreamFile) {
   })
 
   // Last token finish reason
-  let finishReason = chunks.slice(-1)[0] && chunks.slice(-1)[0]["choices"] ? chunks.slice(-1)[0]["choices"][0]["finish_reason"] : false
-  if (chunks.slice(-1)[0]?.["usage"]) {
-    finishReason = true // end of OpenRouter shows usage. but no finishReason
-  }
-  if (chunks.slice(-1)[0]?.["candidates"]?.[0]["finishReason"]) {
-    finishReason = true // end of Gooogle
+  let finishReason = false;
+  if (apiEndpoint.includes('11434')) {
+    finishReason = chunks.slice(-1)[0]["done_reason"] ? chunks.slice(-1)[0]["done_reason"] : false
+  } else {
+    finishReason = chunks.slice(-1)[0] && chunks.slice(-1)[0]["choices"] ? chunks.slice(-1)[0]["choices"][0]["finish_reason"] : false
+    if (chunks.slice(-1)[0]?.["usage"]) {
+      finishReason = true // end of OpenRouter shows usage. but no finishReason
+    }
+    if (chunks.slice(-1)[0]?.["candidates"]?.[0]["finishReason"]) {
+      finishReason = true // end of Google
+    } 
   }
 
   // If reponse is not finished, continue loop
