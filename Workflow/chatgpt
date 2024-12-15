@@ -8,6 +8,10 @@ function envVar(varName) {
     .objectForKey(varName).js
 }
 
+function getEndPoint(key) {
+  return envVar(key) 
+}
+
 function fileExists(path) {
   return $.NSFileManager.defaultManager.fileExistsAtPath(path)
 }
@@ -70,9 +74,9 @@ function startStream(apiEndpoint, apiKey, apiOrgHeader, model, systemPrompt, con
 
   task.executableURL = $.NSURL.fileURLWithPath("/usr/bin/curl")
 
-  if (apiEndpoint.includes('googleapis')) {
+  if (apiEndpoint == 'google_api_endpoint') {
     const inputText = contextChat.map(item => item.content).join("")
-    const url = `${apiEndpoint}/models/${model}:streamGenerateContent?alt=sse&key=${apiKey}`
+    const url = `${getEndPoint(apiEndpoint)}/models/${model}:streamGenerateContent?alt=sse&key=${apiKey}`
     task.arguments = [
       url,
       "--speed-limit", "0", "--speed-time", "5", // Abort stalled connection after a few seconds
@@ -81,16 +85,16 @@ function startStream(apiEndpoint, apiKey, apiOrgHeader, model, systemPrompt, con
       "--data", `{ "contents":[{"parts":[{"text": "${inputText}"}]}]}`,
       "--output", streamFile
     ]
-  } else if (apiEndpoint.includes('11434')) {
+  } else if (apiEndpoint == 'ollama_api_endpoint') {
     task.arguments = [
-      apiEndpoint,
+      getEndPoint(apiEndpoint),
       "--header", "Content-Type: application/json",
       "--data", JSON.stringify({ model: model, messages: messages }),
       "--output", streamFile
     ]
   } else {
     task.arguments = [
-      apiEndpoint,
+      getEndPoint(apiEndpoint),
       "--speed-limit", "0", "--speed-time", "5", // Abort stalled connection after a few seconds
       "--silent", "--no-buffer",
       "--header", "Content-Type: application/json",
@@ -148,17 +152,17 @@ function readStream(streamFile, chatFile, pidStreamFile) {
   let responseText = ""
   let error = undefined
 
-  const apiEndpoint = envVar("chatgpt_api_endpoint")
+  const apiEndpoint = envVar("api_endpoint")
   
   chunks.map(item => {
     if (item["error"]) {
       responseText += `[${JSON.stringify((item["error"]))}]`
       error = item["error"]["code"]
-    } else if (apiEndpoint.includes('google')) {
+    } else if (apiEndpoint == 'google_api_endpoint') {
       if (item["candidates"][0]?.["content"]["parts"]) {
         responseText += item["candidates"][0]["content"]["parts"].map(part => part.text).join("")
       }
-    } else if (apiEndpoint.includes('11434')) {
+    } else if (apiEndpoint == 'ollama_api_endpoint') {
       if (item["message"]["content"]) {
         responseText += item["message"]["content"]
       }
@@ -204,7 +208,7 @@ function readStream(streamFile, chatFile, pidStreamFile) {
 
   // Last token finish reason
   let finishReason = false;
-  if (apiEndpoint.includes('11434')) {
+  if (apiEndpoint == 'ollama_api_endpoint') {
     finishReason = chunks.slice(-1)[0]["done_reason"] ? chunks.slice(-1)[0]["done_reason"] : false
   } else {
     finishReason = chunks.slice(-1)[0] && chunks.slice(-1)[0]["choices"] ? chunks.slice(-1)[0]["choices"][0]["finish_reason"] : false
@@ -251,9 +255,7 @@ function run(argv) {
   const typedQuery = argv[0]
   const maxContext = parseInt(envVar("max_context"))
   const apiOrgHeader = envVar("openai_org_id") ? ["--header", `OpenAI-Organization: ${envVar("openai_org_id")}`] : []
-  const apiEndpointInit = envVar("chatgpt_api_endpoint") || "https://api.openai.com/v1/chat/completions"
-  const apiEndpointInitHasPath = apiEndpointInit.replace(/^https?:\/\//, "").includes("/")
-  const apiEndpoint = apiEndpointInitHasPath ? apiEndpointInit : `${apiEndpointInit}/v1/chat/completions`
+  const apiEndpoint = envVar("api_endpoint")
   const systemPrompt = envVar("system_prompt")
   const model = envVar("chatgpt_model_override") ? envVar("chatgpt_model_override") : envVar("gpt_model")
   const chatFile = `${envVar("alfred_workflow_data")}/chat.json`
@@ -261,10 +263,10 @@ function run(argv) {
   const streamFile = `${envVar("alfred_workflow_cache")}/stream.txt`
   const streamingNow = envVar("streaming_now") === "1"
   let apiKey = envVar("openai_api_key")
-  if (apiEndpoint.includes('google')) {
+  if (apiEndpoint == 'google_api_endpoint') {
     apiKey = envVar("google_api_key")
   }
-  if (apiEndpoint.includes('openrouter')) {
+  if (apiEndpoint == 'openrouter_api_endpoint') {
     apiKey = envVar("openrouter_api_key")
   }
 

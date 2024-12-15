@@ -2573,28 +2573,28 @@ Query DALL·E via the `dalle` keyword.
 			<key>config</key>
 			<dict>
 				<key>default</key>
-				<string>https://api.openai.com/v1/chat/completions</string>
+				<string>openai_api_endpoint</string>
 				<key>pairs</key>
 				<array>
 					<array>
 						<string>OpenRouter</string>
-						<string>https://openrouter.ai/api/v1/chat/completions</string>
+						<string>openrouter_api_endpoint</string>
 					</array>
 					<array>
 						<string>OpenAI</string>
-						<string>https://api.openai.com/v1/chat/completions</string>
+						<string>openai_api_endpoint</string>
 					</array>
 					<array>
 						<string>Google</string>
-						<string>https://generativelanguage.googleapis.com/v1beta</string>
+						<string>google_api_endpoint</string>
 					</array>
 					<array>
 						<string>LM Studio</string>
-						<string>http://localhost:1234/v1/chat/completions</string>
+						<string>lmstudio_api_endpoint</string>
 					</array>
 					<array>
 						<string>Ollama</string>
-						<string>http://localhost:11434/api/chat</string>
+						<string>ollama_api_endpoint</string>
 					</array>
 				</array>
 			</dict>
@@ -2605,7 +2605,7 @@ Query DALL·E via the `dalle` keyword.
 			<key>type</key>
 			<string>popupbutton</string>
 			<key>variable</key>
-			<string>chatgpt_api_endpoint</string>
+			<string>api_endpoint</string>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -3030,6 +3030,16 @@ Query DALL·E via the `dalle` keyword.
 	<dict>
 		<key>dalle_api_endpoint</key>
 		<string>https://api.openai.com/v1/images/generations</string>
+		<key>google_api_endpoint</key>
+		<string>https://generativelanguage.googleapis.com/v1beta</string>
+		<key>lmstudio_api_endpoint</key>
+		<string>http://localhost:1234/v1/chat/completions</string>
+		<key>ollama_api_endpoint</key>
+		<string>http://localhost:11434/api/chat</string>
+		<key>openai_api_endpoint</key>
+		<string>https://api.openai.com/v1/chat/completions</string>
+		<key>openrouter_api_endpoint</key>
+		<string>https://openrouter.ai/api/v1/chat/completions</string>
 	</dict>
 	<key>version</key>
 	<string>2024.19.999</string>
