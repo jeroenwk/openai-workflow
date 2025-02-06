@@ -1,21 +1,43 @@
-# <img src='Workflow/icon.png' width='45' align='center' alt='icon'> ChatGPT / DALL-E Alfred Workflow
+# <img src='Workflow/icon.png' width='45' align='center' alt='icon'> IA Chat Alfred Workflow
 
-OpenAI integrations
+AI Chat integration
 
-[⤓ Install on the Alfred Gallery](https://alfred.app/workflows/alfredapp/openai)
+## Prerequisites
 
-## Setup
+You need to have at least one account for OpenAI, Gemini, OpenRouter or Deepseek:
 
-1. Create an OpenAI account and [log in](https://platform.openai.com/login?launch).
-2. On the [API keys page](https://platform.openai.com/api-keys), click `+ Create new secret key`.
-3. Name your new secret key and click `Create secret key`.
-4. Copy your secret key and add it to the [Workflow’s Configuration](https://www.alfredapp.com/help/workflows/user-configuration/).
+1. Create an api platform account.
+2. On the API keys page create new secret key.
+3. Name your new secret key.
+
+Platforms
+
+* https://platform.openai.com
+* https://aistudio.google.com
+* https://openrouter.ai
+* https://platform.deepseek.com
+
+## Build
+
+Build the workflow package inside the cloned repository.
+
+`ditto -ck Workflow openai.alfredworkflow`
+
+## Install
+
+Build the workflow package inside the cloned repository.
+
+`open openai.alfredworkflow`
+
+## Configure
+
+Copy your secret key(s) and add it to the [Workflow’s Configuration](https://www.alfredapp.com/help/workflows/user-configuration/).
 
 ## Usage
 
-### ChatGPT
+### IA Chat
 
-Query ChatGPT via the `chatgpt` keyword, the [Universal Action](https://www.alfredapp.com/help/features/universal-actions/), or the [Fallback Search](https://www.alfredapp.com/help/features/default-results/fallback-searches/).
+Query ChatGPT via the `chat` keyword, the [Universal Action](https://www.alfredapp.com/help/features/universal-actions/), or the [Fallback Search](https://www.alfredapp.com/help/features/default-results/fallback-searches/).
 
 ![Start ChatGPT query](Workflow/images/about/chatgptkeyword.png)
 
@@ -29,7 +51,7 @@ Query ChatGPT via the `chatgpt` keyword, the [Universal Action](https://www.alfr
 
 #### Chat History
 
-View Chat History with ⌥↩&#xFE0E; in the `chatgpt` keyword. Each result shows the first question as the title and the last as the subtitle.
+View Chat History with ⌥↩&#xFE0E; in the `chat` keyword. Each result shows the first question as the title and the last as the subtitle.
 
 ![Viewing chat histories](Workflow/images/about/chatgpthistory.png)
 
