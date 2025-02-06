@@ -2689,6 +2689,10 @@ Query DALL·E via the `dalle` keyword.
 						<string>Ollama</string>
 						<string>ollama_api_endpoint</string>
 					</array>
+					<array>
+						<string>Deepseek</string>
+						<string>deepseek_api_endpoint</string>
+					</array>
 				</array>
 			</dict>
 			<key>description</key>
@@ -2767,6 +2771,27 @@ Query DALL·E via the `dalle` keyword.
 			<key>config</key>
 			<dict>
 				<key>default</key>
+				<string></string>
+				<key>placeholder</key>
+				<string></string>
+				<key>required</key>
+				<false/>
+				<key>trim</key>
+				<true/>
+			</dict>
+			<key>description</key>
+			<string>Get it at https://platform.deepseek.com/api_keys</string>
+			<key>label</key>
+			<string>Deepseek API Key</string>
+			<key>type</key>
+			<string>textfield</string>
+			<key>variable</key>
+			<string>deepseek_api_key</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
 				<string>chat</string>
 				<key>placeholder</key>
 				<string></string>
@@ -2833,6 +2858,14 @@ Query DALL·E via the `dalle` keyword.
 					<array>
 						<string>Google: Gemini Experimental 1206</string>
 						<string>gemini-exp-1206</string>
+					</array>
+					<array>
+						<string>Deepseek Chat</string>
+						<string>deepseek-chat</string>
+					</array>
+					<array>
+						<string>Deepseek R1</string>
+						<string>deepseek-reasoner</string>
 					</array>
 				</array>
 			</dict>
@@ -3123,6 +3156,8 @@ Query DALL·E via the `dalle` keyword.
 	<dict>
 		<key>dalle_api_endpoint</key>
 		<string>https://api.openai.com/v1/images/generations</string>
+		<key>deepseek_api_endpoint</key>
+		<string>https://api.deepseek.com/chat/completions</string>
 		<key>google_api_endpoint</key>
 		<string>https://generativelanguage.googleapis.com/v1beta</string>
 		<key>lmstudio_api_endpoint</key>
