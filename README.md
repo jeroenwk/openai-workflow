@@ -16,6 +16,7 @@ Platforms
 * https://aistudio.google.com
 * https://openrouter.ai
 * https://platform.deepseek.com
+* https://console.x.ai
 
 ## Build
 
