@@ -2224,6 +2224,7 @@ Platforms
 * https://aistudio.google.com
 * https://openrouter.ai
 * https://platform.deepseek.com
+* https://console.x.ai
 
 ## Build
 
@@ -2717,6 +2718,10 @@ Query DALL·E via the `dalle` keyword.
 						<string>Deepseek</string>
 						<string>deepseek_api_endpoint</string>
 					</array>
+					<array>
+						<string>xAI</string>
+						<string>xai_api_endpoint</string>
+					</array>
 				</array>
 			</dict>
 			<key>description</key>
@@ -2811,6 +2816,27 @@ Query DALL·E via the `dalle` keyword.
 			<string>textfield</string>
 			<key>variable</key>
 			<string>deepseek_api_key</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<string></string>
+				<key>placeholder</key>
+				<string></string>
+				<key>required</key>
+				<false/>
+				<key>trim</key>
+				<true/>
+			</dict>
+			<key>description</key>
+			<string>Get it at https://console.x.ai/</string>
+			<key>label</key>
+			<string>xAI API Key</string>
+			<key>type</key>
+			<string>textfield</string>
+			<key>variable</key>
+			<string>xai_api_key</string>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -3194,6 +3220,8 @@ Query DALL·E via the `dalle` keyword.
 		<string>https://openrouter.ai/api/v1/chat/completions</string>
 		<key>translate_system_prompt</key>
 		<string>You are a multi-language spelling checker. Every input that is given to you should be corrected. Only respond with the corrected text. Don't give any other information.</string>
+		<key>xai_api_endpoint</key>
+		<string>https://api.x.ai/v1/chat/completions</string>
 	</dict>
 	<key>version</key>
 	<string>2024.19.999</string>

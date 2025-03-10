@@ -227,6 +227,8 @@ function readStream(streamFile, chatFile, pidStreamFile) {
   let finishReason = false;
   if (apiEndpoint == 'ollama_api_endpoint') {
     finishReason = chunks.slice(-1)[0]["done_reason"] ? chunks.slice(-1)[0]["done_reason"] : false
+  } if (apiEndpoint == 'xai_api_endpoint') {
+    finishReason = chunks.slice(-1)[0] && chunks.slice(-1)[0]["choices"] ? chunks.slice(-1)[0]["choices"][0]["finish_reason"] : false
   } else {
     finishReason = chunks.slice(-1)[0] && chunks.slice(-1)[0]["choices"] ? chunks.slice(-1)[0]["choices"][0]["finish_reason"] : false
     if (chunks.slice(-1)[0]?.["usage"]) {
@@ -288,6 +290,9 @@ function run(argv) {
   }
   if (apiEndpoint == 'deepseek_api_endpoint') {
     apiKey = envVar("deepseek_api_key")
+  }
+  if (apiEndpoint == 'xai_api_endpoint') {
+    apiKey = envVar("xai_api_key")
   }
 
   // If continually reading from a stream, continue that loop
